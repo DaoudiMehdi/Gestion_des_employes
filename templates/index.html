@@ -1,0 +1,236 @@
+{% extends 'base.html'%}
+{% block title %}Index{% endblock %}
+{% block content %}
+<script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+<script>
+  window.OneSignal = window.OneSignal || [];
+  OneSignal.push(function() {
+    OneSignal.init({
+      appId: "f17bc311-f05b-434a-b916-b2c798195aba",
+    });
+  });
+</script>
+<div class="container">
+    <div class="row">
+        <div class="col-lg">
+            <div class="jumbotron p-3">
+                <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#exampleModalLong">
+                    Ajouter un employé
+                  </button><br> <br>
+                  <div>
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                                <span>{{ message }}</span>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    {% endwith %}
+            
+                </div> <br> 
+                  
+                  <!-- Modal -->
+                  <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLongTitle">Ajouter un employer</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="{{url_for('add')}}" method="POST">
+                                <div class="form-group">
+                                    <label for="cin">CIN</label>
+                                    <input type="text" name="cin" class="form-control" id="cin" aria-describedby="CIN" placeholder="Entrer CIN" required="1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="nom">nom et prenom</label>
+                                    <input type="text" class="form-control" name="nom" id="nom" aria-describedby="noms" placeholder="Entrer nom et prenom" required="1">
+                                </div>
+            
+                                <div class="form-group">
+                                    <label for="email">Email address</label>
+                                    <input type="email" class="form-control" name="email" id="email" aria-describedby="email" placeholder="Entrer Email" required="1">
+                                </div>
+            
+                                <div class="form-group">
+                                    <label for="tlf">Numero de telephone</label>
+                                    <input type="number" class="form-control" name="tlf" id="tlf" aria-describedby="TLF" placeholder="Entrer numero de telephone " required="1">
+                                </div>
+            
+                                <div class="form-group">
+                                    <label for="Salaire">Salaire</label>
+                                    <input type="number" class="form-control" name="Salaire" id="Salaire" aria-describedby="Salaire" placeholder="Entrer le Salaire " required="1">
+                                </div>
+            
+                                <button class="btn btn-primary" type="submit">Ajouter ce employer</button>
+            
+                                
+                                  
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                          
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+            
+            </div>
+        </div>
+    </div>
+    <table class="table table-hover table-dark">
+          <tr>
+            <th>ID</th>
+            <th>Cin</th>
+            <th>nom et prenom</th>
+            <th>E-mail</th>
+            <th>Telephone</th>
+            <th>Salaire</th>
+
+            <th>Edit ou supprimer</th>
+          </tr>
+
+
+          {% for row in mydata %}
+          
+          <tr>
+              <td>{{row.id}}</td>
+              <td>{{row.cin}}</td>
+              <td>{{row.nom}}</td>
+              <td>{{row.email}}</td>
+              <td>{{row.tlf}}</td>
+              <td>{{row.Salaire}}</th>
+              
+              <td>
+                  <a href="/modifier/{{row.id}}" class="btn btn-warning  " data-toggle="modal" data-target="#secondModal{{row.id}}">modifier</a>
+                  <a href="/supprimer/{{row.id}}" class="btn btn-warning " id="btn4">supprimer</a>
+              </td>
+          </tr>
+          
+          <div class="modal fade" id="firstModal" tabindex="-1" role="dialog" aria-labelledby="firstModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content text-center">
+                    <div class="modal-header">
+                        <h5 class="modal-title " id="firstModalLabel">AJOUTET UN EMPLOYER</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+    
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{url_for('add')}}" method="POST">
+                            <div class="form-group">
+                                <label for="cin">CIN</label>
+                                <input type="text" name="cin" class="form-control" id="cin" aria-describedby="CIN" placeholder="Entrer CIN" required="1">
+                            </div>
+                            <div class="form-group">
+                                <label for="nom">nom et prenom</label>
+                                <input type="text" class="form-control" name="nom" id="nom" aria-describedby="noms" placeholder="Entrer nom et prenom" required="1">
+                            </div>
+    
+                            <div class="form-group">
+                                <label for="email">Email address</label>
+                                <input type="email" class="form-control" name="email" id="email" aria-describedby="email" placeholder="Entrer Email" required="1">
+                            </div>
+    
+                            <div class="form-group">
+                                <label for="tlf">Numero de telephone</label>
+                                <input type="number" class="form-control" name="tlf" id="tlf" aria-describedby="TLF" placeholder="Entrer numero de telephone " required="1">
+                            </div>
+    
+                            <div class="form-group">
+                                <label for="Salaire">Salaire</label>
+                                <input type="number" class="form-control" name="Salaire" id="Salaire" aria-describedby="Salaire" placeholder="Entrer le Salaire " required="1">
+                            </div>
+    
+                            <button class="btn btn-primary" type="submit">Ajouter ce employer</button>
+    
+                            
+                              
+                        </form>
+    
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        
+                    </div>
+                </div>
+            </div>
+            </div>
+            <div class="modal fade" id="secondModal{{row.id}}" tabindex="-1" role="dialog" aria-labelledby="secondModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content text-center">
+                        <div class="modal-header">
+                            <h5 class="modal-title " id="secondModalLabel">MODIFIER UN EMPLOYER</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+        
+                        </div>
+                        <div class="modal-body">
+                            <form action="{{url_for('modifier')}}" method="POST">
+                                <div class="form-group">
+                                    <input  name="id" type="hidden" value="{{row.id}}">
+                                    <label for="cin">CIN</label>
+                                    <input type="text" name="cin" class="form-control" id="cin" aria-describedby="CIN" placeholder="Entrer CIN" required="1" value="{{row.cin}}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="nom">nom et prenom</label>
+                                    <input type="text" class="form-control" name="nom" id="nom" aria-describedby="noms" placeholder="Entrer nom et prenom" required="1" value="{{row.nom}}">
+                                </div>
+        
+                                <div class="form-group">
+                                    <label for="email">Email address</label>
+                                    <input type="email" class="form-control" name="email" id="email" aria-describedby="email" placeholder="Entrer Email" required="1" value="{{row.email}}">
+                                </div>
+        
+                                <div class="form-group">
+                                    <label for="tlf">Numero de telephone</label>
+                                    <input type="number" class="form-control" name="tlf" id="tlf" aria-describedby="TLF" placeholder="Entrer numero de telephone " required="1" value="{{row.tlf}}">
+                                </div>
+        
+                                <div class="form-group">
+                                    <label for="Salaire">Salaire</label>
+                                    <input type="number" class="form-control" name="Salaire" id="Salaire" aria-describedby="Salaire" placeholder="Entrer le Salaire " required="1" value="{{row.Salaire}}">
+                                </div>
+                                <button class="btn btn-primary" type="submit">Modifier</button>
+                                  
+                            </form>
+        
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            
+                        </div>
+                    </div>
+                </div>
+                </div>
+    
+    
+    
+    
+          {% endfor %}
+          
+       
+      </table>
+     
+
+
+
+
+
+
+
+</div>
+
+  
+{% endblock content %}
